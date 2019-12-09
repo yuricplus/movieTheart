@@ -1,0 +1,85 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">z
+        <script>
+            const URL = 'https://api.themoviedb.org/3/movie/upcoming?api_key=10ac6b308154d8d3da2368d25caa4778&language=pt-BR';
+            let dataMovie = null;
+            var text = "";
+            let desci = "";
+            let img = "";
+            let image = document.createElement("img")
+            fetch(URL, {
+            method: 'get'
+            })
+            .then(function(response) {
+                response.json().then(function(data){             
+                console.log(data.results); 
+                dataMovie = data.results;
+                for (i = 0; i < dataMovie.length; i++) {
+                text = dataMovie[i].title;
+                desci = text;
+                image[i] = document.createElement("img");
+                let movieLink = document.createElement("a");
+                movieLink.setAttribute("href", "/movie.html?filme=" + dataMovie[i].id);
+                image[i].setAttribute('src', "https://image.tmdb.org/t/p/original" + dataMovie[i].poster_path);
+                image[i].setAttribute('width', 190);
+                image[i].setAttribute('height', 278);
+                image[i].setAttribute('title', desci);
+                movieLink.appendChild(image[i]);
+                document.querySelector(".movies-descripto").appendChild(movieLink);
+               
+                }
+                
+             });
+            })
+            .catch(function(err) {
+                console.error('Failed retrieving information', err);
+        })
+        </script>
+        <style>
+            * {
+                font-family: Ubuntu;
+            }
+        img {
+            margin: 5px;
+            border-radius: 8px;
+        }
+        h3 {
+            width: 10px;
+        }
+        .movie_card {
+            width: 100px;
+        }
+        body {
+            margin-right: 70px;
+            margin-left: 70px;
+        }
+        .btn-movies {
+         color: #147EB5;
+         font-weight: bold;
+         font-family: Ubuntu;
+         padding: 10px;
+         margin: 10px;
+         text-decoration: none;
+        }
+        .list-btn {
+            border-bottom: 2px solid #F2F2F2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Filmes</h1>
+        <div class="list-btn">
+            <a href="javascript:void(0)" class="btn-movies" onclick="movieList()">Em cartaz</a>
+            <a href="javascript:void(0)" class="btn-movies" onclick="movieList(now_playing)">Em breve</a>
+        </div>
+        <div class="movies-descripto"></dv>
+       <div class="movies-descripto"></dv>
+    </body>
+    </html>
+   

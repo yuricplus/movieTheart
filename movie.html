@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Filmes</title>
+</head>
+<style>
+        body {
+            text-align: center;
+        }
+        .movie-detail {
+         height: 400px;
+         margin: -20px;
+         background-repeat: no-repeat;
+         background-size: cover;
+        }
+        img {
+            margin-top: 100px;
+        }
+        .title {
+            margin-top: 50px;
+            font-family: Ubuntu;
+            font-weight: bold;
+        }
+        .back-button {
+            z-index: 200;
+        }
+    </style>
+    <script>
+        var movie = window.location.search.split("=")[1];
+        const URL = `https://api.themoviedb.org/3/movie/${movie}?api_key=10ac6b308154d8d3da2368d25caa4778&language=pt-BR`;
+        let dataMovie = null;
+        fetch(URL, {
+        method: 'get'
+        })
+        .then(function(response) {
+            response.json().then(function(data){
+            dataMovie = data;
+            var imageMovie = document.createElement("img");
+            var movieTitle = dataMovie.title
+            imageMovie.setAttribute('src', "https://image.tmdb.org/t/p/original" + dataMovie.poster_path);
+            imageMovie.setAttribute('width', 190);
+            imageMovie.setAttribute('height', 278);
+            document.querySelector(".movie-container").appendChild(imageMovie);
+            document.querySelector(".title").innerHTML = movieTitle;
+            document.querySelector(".movie-detail").style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0), rgb(255, 255, 255)), url('https://image.tmdb.org/t/p/original${dataMovie.backdrop_path}')`
+         })
+        })
+        .catch(function(err) {
+            console.error('Failed retrieving information', err);
+    })
+    </script>
+<body id="app">
+  <a href="/" class="back-button">Back</a>
+    <div class="movie-detail">
+     <div class="movie-container"></div>
+    </div>
+    <h2 class="title"></h2>
+</body>
+</html>
